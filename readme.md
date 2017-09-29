@@ -40,6 +40,7 @@ After completing all the installment, the usage will be very simple:
     import pyberrynet
     berrynet = pyberrynet.run()
     results = berrynet.upload('picamera')
+    berrynet.close()
 
 ## Comments or questions:
 
