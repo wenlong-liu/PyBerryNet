@@ -31,7 +31,7 @@ It will take a while to build the programs.  Please refer to the [GitHub page](h
     $ cd PyBerryNet
     $ sudo python3 setup.py install
 
-### Install pyBerryNet via pip (under developing)
+### Install pyBerryNet via pip
     pip install pyberrynet
  
 ## Usage
