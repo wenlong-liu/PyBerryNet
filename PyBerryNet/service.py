@@ -14,14 +14,14 @@ class run():
     PyBN is a wrap-up for the package in BerryNet.
     """
     def __init__(self, warm_up=10, is_closed=False, server='localhost', port=1883,
-                 engine='detector', bn_path=None):
+                 engine='detector', path='/home/pi/BerryNet'):
         """
         :param warm_up: Allow the service to warm up certain seconds, default: 10. If 0, disable warm up.
         :param is_closed: the status of the beryrnet service. default: False
         :param server: the server to host berrynet, default: localhose.
         :param port: the port of mqtt, default: 1883.
         :param engine: the engine to detect image or video, options: detector or classifier. default: detector.
-        :param bn_path: the fold directory for berrynet files. 
+        :param path: the fold directory for berrynet files. default: '/home/pi/BerryNet'
         """
 
         self.is_closed = is_closed
@@ -30,11 +30,7 @@ class run():
         self.port = port
         # supported image inputs for now as of Sep. 18, 2017.
         self.img_list = ['picamera', 'ipcamera', 'localimage']
-        # find the path of BerryNet folder.
-        if bn_path:
-            self.path = bn_path
-        else:
-            self.path = self._find_bn_path()
+        self.path = path
         # double check the engine in configure.js.
         self.engine = engine
         self._check_engine()
@@ -60,16 +56,9 @@ class run():
                     outfile.write(line)
 
         except IOError as e:
-            raise FileNotFound
             print(e)
-
-    @staticmethod
-    def _find_bn_path():
-        """
-        Find the path of berrynet project folders.  
-        :return: the directory of berrynet folders.
-        """
-        return os.system("find /dir/path/look/up -name 'BerryNet'")
+            raise FileNotFound
+            
 
     def _img_source(self, img_source):
         """ Return the topic and message for mqtt based on the image source type"""
@@ -83,8 +72,9 @@ class run():
         if img_source.lower() in self.img_list:
             topic, message = topic_dictionary[img_source.lower()]
         else:
+            print("Invalid input: {} is not in the supported list!".format(img_source))
             raise InvalidInput
-            print("Invalid input: {} is not in the supported list!".format(self.img_source))
+            
 
         return topic,message
 
@@ -113,8 +103,9 @@ class run():
             if path:
                 message = path
             else:
-                raise InvalidInput
                 print("Invalid input: local image path required!")
+                raise InvalidInput
+                
 
         try:
             publish.single(topic, payload=message, hostname=self.server, port=self.port, client_id=client_id, **kwargs)
@@ -155,30 +146,34 @@ class run():
     def close(self):
         self.is_closed = True
         # Call to close the backend service
-        os.system('berrynet_manager stop')
+        os.system('berrynet-manager stop')
 
     def start(self):
-        self.is_closed = False
-        # Call to start the backend service
-        os.system('berrynet_manager start')
+        if self.is_closed:
+            self.is_closed = False
+            # Call to start the backend service
+            os.system('berrynet-manager start')
 
-        # It is better to warm up the system for 10 seconds.
-        if self.warm_up:
-            time.sleep(self.warm_up)
+            # It is better to warm up the system for 10 seconds.
+            if self.warm_up:
+                print('Warming up......')             
+                time.sleep(self.warm_up)
+        else:
+             print('The BerryNet is already started.')
 
     @staticmethod
     def status():
         """
         :return: return the status of the backend berrynet.
         """
-        return os.system('berrynet_manage status')
+        return os.system('berrynet-manager status')
 
     @staticmethod
     def return_log():
         """
         :return: return the status of the backend berrynet.
         """
-        return os.system('berrynet_manage log')
+        return os.system('berrynet-manager log')
 
     def __enter__(self):
         return self
