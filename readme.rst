@@ -59,6 +59,7 @@ After completing all the installment, the usage will be very simple:
     import pyberrynet
     berrynet = pyberrynet.run()
     results = berrynet.upload('Localimage', path='filepath')
+    berrynet.close()
 
 Comments or questions:
 ----------------------

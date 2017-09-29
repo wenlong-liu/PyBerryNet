@@ -41,6 +41,20 @@ After completing all the installment, the usage will be very simple:
     berrynet = pyberrynet.run()
     results = berrynet.upload('picamera')
     berrynet.close()
+    
+## Roadmap and priorities
+
+| Items | Priority | Status|
+|------------------------|--------------|----------------------|
+|Add test suitcase|******| Not started|
+|Save result image| *****| Ongoing|
+|Able to draw boxes in the result image| ****| Ongoing|
+|Able to change more configuration settings| ****| Not started|
+|Fix conflict of backend status within one session| ****| Ongoing|
+|Add examples and tutorials|***| Ongoing|
+|~~Prepare for pip installment~~|*****| Done|
+|~~Testing with RPi3~~| *****| Done|
+|~~Add license file~~|*****| Done|
 
 ## Comments or questions:
 
