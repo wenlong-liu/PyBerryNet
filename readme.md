@@ -26,7 +26,12 @@ It will take a while to build the programs.  Please refer to the [GitHub page](h
 
 ### Install [paho-mqtt 1.3.0](https://pypi.python.org/pypi/paho-mqtt/1.3.0) 
     pip install paho-mqtt
-### Install pyBerryNet (under developing)
+### Install pyBerryNet from github
+    $ git clone https://github.com/wliu2016/PyBerryNet
+    $ cd PyBerryNet
+    $ sudo python3 setup.py install
+
+### Install pyBerryNet via pip (under developing)
     pip install pyberrynet
  
 ## Usage
@@ -34,7 +39,7 @@ After completing all the installment, the usage will be very simple:
     
     import pyberrynet
     berrynet = pyberrynet.run()
-    results = berrynet.upload('Localimage', path='filepath')
+    results = berrynet.upload('picamera')
 
 ## Comments or questions:
 
