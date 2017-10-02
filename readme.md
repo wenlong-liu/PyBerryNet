@@ -1,5 +1,7 @@
 # PyBerryNet
-A Python API for BerryNet. 
+A Python API for BerryNet.
+ 
+[![PyPI version](https://badge.fury.io/py/pyberrynet.svg)](https://badge.fury.io/py/pyberrynet)
 
 ## Requirements
 
@@ -50,6 +52,7 @@ After completing all the installment, the usage will be very simple:
 |Save result image| *****| Ongoing|
 |Able to draw boxes in the result image| ****| Ongoing|
 |Able to change more configuration settings| ****| Not started|
+|Formulate documents in readthedoc.com|****| Not started|
 |Fix conflict of backend status within one session| ****| Ongoing|
 |Add examples and tutorials|***| Ongoing|
 |~~Prepare for pip installment~~|*****| Done|

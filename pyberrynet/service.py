@@ -56,8 +56,7 @@ class run():
                     outfile.write(line)
 
         except IOError as e:
-            print(e)
-            raise FileNotFound
+            raise FileNotFound(e)
             
 
     def _img_source(self, img_source):
@@ -72,8 +71,7 @@ class run():
         if img_source.lower() in self.img_list:
             topic, message = topic_dictionary[img_source.lower()]
         else:
-            print("Invalid input: {} is not in the supported list!".format(img_source))
-            raise InvalidInput
+            raise InvalidInput("Invalid input: {} is not in the supported list!".format(img_source))
             
 
         return topic,message
@@ -103,8 +101,7 @@ class run():
             if path:
                 message = path
             else:
-                print("Invalid input: local image path required!")
-                raise InvalidInput
+                raise InvalidInput("Invalid input: local image path required!")
                 
 
         try:
@@ -114,7 +111,7 @@ class run():
             return results
 
         except Exception as e:
-            print(e)
+            raise InvalidInput(e)
             return None
 
     def _receive_result(self,topic='berrynet/dashboard/inferenceResult', **kwargs):
