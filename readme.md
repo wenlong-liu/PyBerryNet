@@ -48,7 +48,6 @@ After completing all the installment, the usage will be very simple:
 
 | Items | Priority | Status|
 |------------------------|--------------|----------------------|
-
 |Save result image| *****| Ongoing|
 |Able to draw boxes in the result image| ****| Ongoing|
 |Able to change more configuration settings| ****| Not started|
