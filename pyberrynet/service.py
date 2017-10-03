@@ -13,6 +13,7 @@ class run():
     """
     PyBN is a wrap-up for the package in BerryNet.
     """
+
     def __init__(self, warm_up=10, is_closed=True, server='localhost', port=1883,
                  engine='detector', path='/home/pi/BerryNet'):
         """
@@ -45,26 +46,25 @@ class run():
         """
         lines = []
         try:
-            with open(str(self.path)+'/config.js') as infile:
+            with open(str(self.path) + '/config.js') as infile:
                 for line in infile:
                     if line.startswith('config.inferenceEngine'):
                         line = "config.inferenceEngine = '{}';  // (classifier, detector)\n".format(self.engine)
                     lines.append(line)
 
-            with open(str(self.path)+'/config.js', 'w') as outfile:
+            with open(str(self.path) + '/config.js', 'w') as outfile:
                 for line in lines:
                     outfile.write(line)
 
         except IOError as e:
             raise FileNotFound(e)
-            
 
     def _img_source(self, img_source):
         """ Return the topic and message for mqtt based on the image source type"""
 
         topic_dictionary = {
-            'picamera': ('berrynet/event/camera','snapshot_picam'),
-            'ipcamera': ('berrynet/event/camera','snapshot_ipcam'),
+            'picamera': ('berrynet/event/camera', 'snapshot_picam'),
+            'ipcamera': ('berrynet/event/camera', 'snapshot_ipcam'),
             'localimage': ('berrynet/event/localImage', None)
         }
 
@@ -72,9 +72,8 @@ class run():
             topic, message = topic_dictionary[img_source.lower()]
         else:
             raise InvalidInput("Invalid input: {} is not in the supported list!".format(img_source))
-            
 
-        return topic,message
+        return topic, message
 
     def upload(self, img_source=None, path=None, client_id="", save_img=False, save_path=None,
                draw_bound=False, **kwargs):
@@ -102,19 +101,18 @@ class run():
                 message = path
             else:
                 raise InvalidInput("Invalid input: local image path required!")
-                
 
         try:
             publish.single(topic, payload=message, hostname=self.server, port=self.port, client_id=client_id, **kwargs)
             results = self._receive_result()
-            #Draw boxes for the image taken.
+            # Draw boxes for the image taken.
             return results
 
         except Exception as e:
             raise InvalidInput(e)
             return None
 
-    def _receive_result(self,topic='berrynet/dashboard/inferenceResult', **kwargs):
+    def _receive_result(self, topic='berrynet/dashboard/inferenceResult', **kwargs):
         """
         Subscribe the broker and receive the results
         :param 
@@ -129,7 +127,7 @@ class run():
 
         return results
 
-    def _receive_img(self,topic='berrynet/dashboard/inference', **kwargs):
+    def _receive_img(self, topic='berrynet/dashboard/inference', **kwargs):
         """
         Subscribe the inference topic to receive the image.
         :param topic: the topic to receive image.
@@ -153,10 +151,10 @@ class run():
 
             # It is better to warm up the system for 10 seconds.
             if self.warm_up:
-                print('Warming up......')             
+                print('Warming up......')
                 time.sleep(self.warm_up)
         else:
-             print('The BerryNet is already started.')
+            print('The BerryNet is already started.')
 
     @staticmethod
     def status():

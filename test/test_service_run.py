@@ -39,8 +39,6 @@ class test_sumarry(unittest.TestCase):
         path = ''
         with self.assertRaises(FileNotFound):
             berrynet = pyberrynet.run(path=path)
-        
-        
 
 if __name__ == '__main__':
     unittest.main()

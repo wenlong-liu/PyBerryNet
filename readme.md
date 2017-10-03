@@ -48,13 +48,14 @@ After completing all the installment, the usage will be very simple:
 
 | Items | Priority | Status|
 |------------------------|--------------|----------------------|
-|Add test suitcase|******| Not started|
+
 |Save result image| *****| Ongoing|
 |Able to draw boxes in the result image| ****| Ongoing|
 |Able to change more configuration settings| ****| Not started|
 |Formulate documents in readthedoc.com|****| Not started|
 |Fix conflict of backend status within one session| ****| Ongoing|
 |Add examples and tutorials|***| Ongoing|
+|~~Add test suitcase~~|******| Done|
 |~~Prepare for pip installment~~|*****| Done|
 |~~Testing with RPi3~~| *****| Done|
 |~~Add license file~~|*****| Done|
