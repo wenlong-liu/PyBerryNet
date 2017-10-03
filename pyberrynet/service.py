@@ -13,11 +13,11 @@ class run():
     """
     PyBN is a wrap-up for the package in BerryNet.
     """
-    def __init__(self, warm_up=10, is_closed=False, server='localhost', port=1883,
+    def __init__(self, warm_up=10, is_closed=True, server='localhost', port=1883,
                  engine='detector', path='/home/pi/BerryNet'):
         """
         :param warm_up: Allow the service to warm up certain seconds, default: 10. If 0, disable warm up.
-        :param is_closed: the status of the beryrnet service. default: False
+        :param is_closed: the status of the beryrnet service. default: True.
         :param server: the server to host berrynet, default: localhose.
         :param port: the port of mqtt, default: 1883.
         :param engine: the engine to detect image or video, options: detector or classifier. default: detector.

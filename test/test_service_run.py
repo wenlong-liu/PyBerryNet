@@ -1,19 +1,46 @@
 import pyberrynet
+import unittest
 
+from pyberrynet.error import InvalidInput
+from pyberrynet.error import FileNotFound
 
-class test_sumarry():
+class test_sumarry(unittest.TestCase):
     """
     Test the functions of service.run().
     """
 
-    def __init__(self):
-        self.berrynet = pyberrynet.run()
-        self.ip = 'ipcamera'
-        self.picamera = 'picamera'
-        self.local = 'localimage'
-        self.path = ''
+    def test_init(self):
+        berrynet = pyberrynet.run()
+        self.assertEqual(berrynet.is_closed, False)
+        berrynet.close()
+        self.assertEqual(berrynet.is_closed, True)
+        berrynet.start()
+        self.assertEqual(berrynet.is_closed, False)
 
     def test_input(self):
-        assert self.berrynet(self.ip)
-        assert self.berrynet(self.picamera)
-        assert self.berrynet(self.local, self.path)
+        berrynet = pyberrynet.run()
+        #self.assertTrue(berrynet.upload('ipcamera'))
+        self.assertTrue(berrynet.upload('picamera'))
+        self.assertTrue(berrynet.upload('localimage', '/home/pi/Pictures/5325.jpg'))
+        berrynet.close()
+       
+    def test_InvalidInput(self):
+        berrynet = pyberrynet.run()
+        
+        with self.assertRaises(InvalidInput):
+            berrynet.upload('whatever')
+        
+        with self.assertRaises(InvalidInput):
+            berrynet.upload('localimage','')
+        
+        berrynet.close()
+        
+    def test_FileNotFound(self):
+        path = ''
+        with self.assertRaises(FileNotFound):
+            berrynet = pyberrynet.run(path=path)
+        
+        
+
+if __name__ == '__main__':
+    unittest.main()
