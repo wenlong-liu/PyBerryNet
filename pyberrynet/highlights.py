@@ -2,30 +2,26 @@
 Ref: https://github.com/DT42/BerryNet/blob/master/inference/detection_server.py
 """
 import cv2
-import numpy as np
+import matplotlib.pyplot as plt
 
 
-def draw_bounding(raw_image, output_path, results, color_map):
+def draw_bounding(image, results, color_map):
     """Draw bounding boxes on an image.
-    :param 
-    image: image path
-    output_path: output image file path
-    results: Darkflow inference results
-    color_map: Bounding box color candidates, list of RGB tuples.
+    :param image: numpy array of image.
+    :param results: Darkflow inference results
+    :param color_map: Bounding box color candidates, list of RGB tuples. Imported from matplotlib.
     
-    :return
-    A saved picture with drawing boards on the recognized items.
+    :return A picture with drawing boards on the recognized items.
     """
     for res in results:
         # read in image as a numpy array.
-        image = cv2.imread(raw_image)
-
         left = res['topleft']['x']
         top = res['topleft']['y']
         right = res['bottomright']['x']
         bottom = res['bottomright']['y']
         color_index = res['coloridx']
-        color = color_map[color_index]
+        cmap = plt.get_cmap(color_map)
+        color = cmap(color_index)
         label = res['label']
         confidence = res['confidence']
         img_height, img_width, _ = image.shape
@@ -34,4 +30,4 @@ def draw_bounding(raw_image, output_path, results, color_map):
         cv2.rectangle(image,(left, top), (right, bottom), color, thick)
         cv2.putText(image, label, (left, top - 12), 0, 1e-3 * img_height, color, thick//3)
 
-    cv2.imwrite(output_path, image)
+        return image

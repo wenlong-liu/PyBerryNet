@@ -2,10 +2,10 @@ from distutils.core import setup
 
 setup(
     name='pyberrynet',
-    version='0.1.1',
+    version='0.1.2',
     packages=['pyberrynet'],
     url='https://github.com/wliu2016/PyBerryNet',
-    download_url='',
+    download_url='https://github.com/wliu2016/PyBerryNet/archive/V0.1.2.tar.gz',
     keywords=['RPi3', 'Python','YOLO','tensorflow'],
     license='GUN GPLv3',
     author='Wenlong Liu',

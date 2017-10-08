@@ -1,10 +1,13 @@
 import os
 import time
 import yaml
+import cv2
 
 import paho.mqtt.subscribe as subscribe
 import paho.mqtt.publish as publish
 
+from datetime import datetime
+from pyberrynet.highlights import draw_bounding
 from pyberrynet.error import InvalidInput
 from pyberrynet.error import FileNotFound
 
@@ -31,7 +34,7 @@ class run():
         self.port = port
         # supported image inputs for now as of Sep. 18, 2017.
         self.img_list = ['picamera', 'ipcamera', 'localimage']
-        self.path = path
+        self.path = str(path)
         # double check the engine in configure.js.
         self.engine = engine
         self._check_engine()
@@ -46,13 +49,13 @@ class run():
         """
         lines = []
         try:
-            with open(str(self.path) + '/config.js') as infile:
+            with open(self.path + '/config.js') as infile:
                 for line in infile:
                     if line.startswith('config.inferenceEngine'):
                         line = "config.inferenceEngine = '{}';  // (classifier, detector)\n".format(self.engine)
                     lines.append(line)
 
-            with open(str(self.path) + '/config.js', 'w') as outfile:
+            with open(self.path + '/config.js', 'w') as outfile:
                 for line in lines:
                     outfile.write(line)
 
@@ -76,25 +79,28 @@ class run():
         return topic, message
 
     def upload(self, img_source=None, path=None, client_id="", save_img=False, save_path=None,
-               draw_bound=False, **kwargs):
+               draw_bound=False, color_map='jet', **kwargs):
         """
         Publish images to broker using MQTT protocol
-        :param 
-        img_source: the way to capture an image, such as picamera, IPcamera, or localimage.
-        path: the file path for local image, default: None.
-        client_id: the ID for each payload upload.
-        save_img: save the img or not. default: False.
-        save_path: the path to save img. default: None.
-        draw_bound: draw the bounding in the img. Default: False.
+        :param img_source: the way to capture an image, such as picamera, IPcamera, or localimage.
+        :param path: the file path for local image, default: None.
+        :param client_id: the ID for each payload upload.
+        :param save_img: save the img or not. default: False.
+        :param save_path: the path to save img. default: None.
+        :param draw_bound: draw the bounding in the img. Default: False.
+        :param color_map: matplotlib.get_cmap() pickup the name for color map, default: 'jet'.
         
-        :return 
-        Success is a dictionary of recognize results; 
-        failure will raise the exceptions and return None.
+        :return Success is a dictionary of recognize results; 
+        :return failure will raise the exceptions and return None.
         
         :todo
         Draw boxes for the image taken.        
         """
         topic, message = self._img_source(img_source)
+        # if path is not specified, path to save img is the path of berrynet.
+        if not save_path:
+            save_path = self.path + '/image'
+
         # if publish a local image, message is the path of the image.
         if not message:
             if path:
@@ -105,7 +111,21 @@ class run():
         try:
             publish.single(topic, payload=message, hostname=self.server, port=self.port, client_id=client_id, **kwargs)
             results = self._receive_result()
-            # Draw boxes for the image taken.
+
+            # image should be a numpy array.
+            if draw_bound:
+                image = self._receive_img()
+                filename = save_path + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
+                image_with_bounds = draw_bounding(image, results, color_map)
+                # missing color map here.
+                cv2.imwrite(filename, image_with_bounds)
+                
+            elif save_img:
+                # Save image if save_image is True
+                image = self._receive_img()
+                filename = save_path + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
+                cv2.imwrite(filename, image)
+
             return results
 
         except Exception as e:

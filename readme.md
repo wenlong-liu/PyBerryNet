@@ -2,6 +2,7 @@
 A Python API for BerryNet.
  
 [![PyPI version](https://badge.fury.io/py/pyberrynet.svg)](https://badge.fury.io/py/pyberrynet)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Requirements
 
@@ -27,14 +28,14 @@ DT42 group have kindly provided an installment guideline:
 It will take a while to build the programs.  Please refer to the [GitHub page](https://github.com/DT42/BerryNet) for further info. 
 
 ### Install [paho-mqtt 1.3.0](https://pypi.python.org/pypi/paho-mqtt/1.3.0) 
-    pip install paho-mqtt
+    pip3 install paho-mqtt
 ### Install pyBerryNet from github
     $ git clone https://github.com/wliu2016/PyBerryNet
     $ cd PyBerryNet
     $ sudo python3 setup.py install
 
 ### Install pyBerryNet via pip
-    pip install pyberrynet
+    pip3 install pyberrynet
  
 ## Usage
 After completing all the installment, the usage will be very simple:
@@ -48,12 +49,12 @@ After completing all the installment, the usage will be very simple:
 
 | Items | Priority | Status|
 |------------------------|--------------|----------------------|
-|Save result image| *****| Ongoing|
-|Able to draw boxes in the result image| ****| Ongoing|
 |Able to change more configuration settings| ****| Not started|
 |Formulate documents in readthedoc.com|****| Not started|
 |Fix conflict of backend status within one session| ****| Ongoing|
 |Add examples and tutorials|***| Ongoing|
+|~~Save result image~~| *****| Done|
+|~~Able to draw boxes in the result image~~| ****| Done|
 |~~Add test suitcase~~|******| Done|
 |~~Prepare for pip installment~~|*****| Done|
 |~~Testing with RPi3~~| *****| Done|
