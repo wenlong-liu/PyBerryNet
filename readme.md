@@ -49,10 +49,12 @@ After completing all the installment, the usage will be very simple:
 
 | Items | Priority | Status|
 |------------------------|--------------|----------------------|
+|Updates for Berrynet updates|*****| Not started|
 |Able to change more configuration settings| ****| Not started|
 |Formulate documents in readthedoc.com|****| Not started|
 |Fix conflict of backend status within one session| ****| Ongoing|
 |Add examples and tutorials|***| Ongoing|
+|Creating a Docker image for CI Travis testing|*****| Not started|
 |~~Save result image~~| *****| Done|
 |~~Able to draw boxes in the result image~~| ****| Done|
 |~~Add test suitcase~~|******| Done|
